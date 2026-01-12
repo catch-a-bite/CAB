@@ -2,8 +2,11 @@ package com.deliveryapp.catchabite.dto;
 
 import java.time.LocalDateTime;
 
+import com.deliveryapp.catchabite.domain.enumtype.DelivererVehicleType;
 import com.deliveryapp.catchabite.domain.enumtype.YesNo;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,13 +19,24 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DelivererDTO {
 
-    private Long delivererId;                   // BIGINT -> Long
-    private String delivererVehicleType;        // VARCHAR(50)
-    private String delivererLicenseNumber;      // VARCHAR(50), NULL 가능
-    private String delivererVehicleNumber;      // VARCHAR(50), NULL 가능
+    private Long delivererId;              
 
-    private YesNo delivererStatus;                  // CHAR(1) -> Character(널 가능)
-    private LocalDateTime delivererLastLoginDate;       // DATETIME, NULL 가능
-    private YesNo delivererVerified;                // CHAR(1) -> Character(널 가능)            
+    // 1월 12일 새로 추가한 부분(라이더 로그인 ID, PW)
+    // private String delivererLoginId;            
+
+    // private String delivererLoginPw;
+
+    @NotNull
+    private DelivererVehicleType delivererVehicleType;        
+
+    @Size(max = 50)
+    private String delivererLicenseNumber;     
+    
+    @Size(max = 50)
+    private String delivererVehicleNumber;      
+
+    private YesNo delivererStatus;                  
+    private LocalDateTime delivererLastLoginDate;       
+    private YesNo delivererVerified;                         
 
 }

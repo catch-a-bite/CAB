@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import com.deliveryapp.catchabite.domain.enumtype.DeliveryStatus;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,20 +23,26 @@ public class OrderDeliveryDTO {
     @NotNull
     private Long orderId;
 
-    @NotNull
     private Long delivererId;
 
     private LocalDateTime orderAcceptTime;
     private LocalDateTime orderDeliveryPickupTime;
     private LocalDateTime orderDeliveryStartTime;
     private LocalDateTime orderDeliveryCompleteTime;
-    
+
+    @PositiveOrZero
     private BigDecimal orderDeliveryDistance;
 
+    @PositiveOrZero
     private Integer orderDeliveryEstTime;
+    
+    @PositiveOrZero
     private Integer orderDeliveryActTime;
     
-    private DeliveryStatus orderDeliveryStatus;
+    // 기본 상태를 PENDING(대기)로 설정
+    @Builder.Default
+    private DeliveryStatus orderDeliveryStatus = DeliveryStatus.PENDING;
+
     private LocalDateTime orderDeliveryCreatedDate;
 
 }

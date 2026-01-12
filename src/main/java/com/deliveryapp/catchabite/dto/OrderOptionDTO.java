@@ -1,5 +1,9 @@
 package com.deliveryapp.catchabite.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,8 +18,18 @@ import lombok.ToString;
 public class OrderOptionDTO {
 
     private Long orderOptionId;
+    
+    @NotNull
     private Long orderItemId;
+
+    // null 뿐만 아니라 빈 문자열/공백도 막기
+    @NotBlank
+    @Size(max = 100)
     private String orderOptionName;
-    private Long orderOptionExtraPrice;
+
+    // 기본값을 0으로 설정, 컬럼이 0또는 0이상의 값만 가지도록 설정
+    @Builder.Default
+    @PositiveOrZero
+    private Long orderOptionExtraPrice = 0L;
     
 }
