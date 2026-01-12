@@ -33,6 +33,15 @@ public class Deliverer {
     @Column(name = "deliverer_id")
     private Long delivererId;
 
+
+    // 1월 12일에 추가한 부분 - 라이더 로그인에 이용할 ID, PW
+    // @Column(name = "deliverer_login_id", length = 20, nullable = false)
+    // private String delivererLoginId;
+
+    // @Column(name = "deliverer_login_pw", length = 20, nullable = false)
+    // private String delivererLoginPw;
+
+
     // 오토바이/자전거/차량/walking
     @Enumerated(EnumType.STRING)
     @Column(name = "deliverer_vehicle_type", length = 50, nullable = false)
