@@ -14,6 +14,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
@@ -44,7 +45,8 @@ public class OrderDelivery {
 
     // 배정 전에는 NULL 가능 -> Not Null로 설정함
     // deliverer_id는 deliverer.getDelivererId()로 꺼낸다.
-    @OneToOne(fetch = FetchType.LAZY)
+    // 한 배달기사는 여러 배달을 수행할 수 있음 (M:1)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "deliverer_id", nullable = true)
     private Deliverer deliverer;
 
