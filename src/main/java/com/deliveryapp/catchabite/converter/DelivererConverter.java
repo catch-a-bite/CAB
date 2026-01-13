@@ -16,8 +16,8 @@ public class DelivererConverter {
 
         DelivererDTO delivererDTO = DelivererDTO.builder()
             .delivererId(entity.getDelivererId())
-            .delivererLoginId(entity.getDelivererLoginId())
-            .delivererLoginPw(entity.getDelivererLoginPw())
+            .delivererEmail(entity.getDelivererEmail())
+            .delivererPassword(entity.getDelivererPassword())
             .delivererVehicleType(entity.getDelivererVehicleType())
             .delivererLicenseNumber(entity.getDelivererLicenseNumber())
             .delivererVehicleNumber(entity.getDelivererVehicleNumber())
@@ -34,8 +34,8 @@ public class DelivererConverter {
 
         Deliverer deliverer = Deliverer.builder()
             .delivererId(dto.getDelivererId())
-            .delivererLoginId(dto.getDelivererLoginId())
-            .delivererLoginPw(dto.getDelivererLoginPw())
+            .delivererEmail(dto.getDelivererEmail())
+            .delivererPassword(dto.getDelivererPassword())
             .delivererVehicleType(dto.getDelivererVehicleType())
             .delivererLicenseNumber(dto.getDelivererLicenseNumber())
             .delivererVehicleNumber(dto.getDelivererVehicleNumber())

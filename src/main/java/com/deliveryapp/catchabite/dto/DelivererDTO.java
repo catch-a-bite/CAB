@@ -22,9 +22,9 @@ public class DelivererDTO {
     private Long delivererId;              
 
     // 1월 12일 새로 추가한 부분(라이더 로그인 ID, PW)
-    // private String delivererLoginId;            
+    private String delivererEmail;            
 
-    // private String delivererLoginPw;
+    private String delivererPassword;
 
     @NotNull
     private DelivererVehicleType delivererVehicleType;        

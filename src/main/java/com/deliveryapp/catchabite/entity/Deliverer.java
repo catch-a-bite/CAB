@@ -35,11 +35,11 @@ public class Deliverer {
 
 
     // 1월 12일에 추가한 부분 - 라이더 로그인에 이용할 ID, PW
-    // @Column(name = "deliverer_login_id", length = 20, nullable = false)
-    // private String delivererLoginId;
+    @Column(name = "deliverer_email", length = 255, nullable = false)
+    private String delivererEmail;
 
-    // @Column(name = "deliverer_login_pw", length = 20, nullable = false)
-    // private String delivererLoginPw;
+    @Column(name = "deliverer_password", length = 255, nullable = false)
+    private String delivererPassword;
 
 
     // 오토바이/자전거/차량/walking
