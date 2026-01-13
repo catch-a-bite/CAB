@@ -1,6 +1,5 @@
 package com.deliveryapp.catchabite.entity;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -46,11 +45,11 @@ public class OrderItem {
 
     // ERD: ORDER_ITEM_PRICE (NN)
     @Column(name = "order_item_price", nullable = false, precision = 19, scale = 2)
-    private BigDecimal orderItemPrice;
+    private Long orderItemPrice;
 
     // ERD: ORDER_ITEM_QUANTITY (NN)
     @Column(name = "order_item_quantity", nullable = false)
-    private Integer orderItemQuantity;
+    private Long orderItemQuantity;
 
     @OneToMany(mappedBy = "orderItem", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
