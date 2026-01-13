@@ -3,114 +3,77 @@ package com.deliveryapp.catchabite.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.deliveryapp.catchabite.domain.enumtype.StoreOpenStatus;
-
+/*
+ * 이 클래스는 일부러 @Setter를 작성하지 않았습니다. 
+ * @Builder만 사용함으로 null이 발생하는 것을 방지하고자 합니다.
+ */
 @Entity
-@Table(name = "STORE")
+@Table(name = "STORE_ORDER")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString(exclude = {
-        "storeOwner", "images", "menuCategories", "menus"
-})
 public class StoreOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "STORE_ID")
-    private Long storeId;
+    @Column(name = "ORDER_ID")
+    private Long orderId;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "APP_USER_ID", nullable = false) // ERD shows nullable
+    private AppUser appUser;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "STORE_ID", nullable = false)
+    private Store store;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "ADDRESS_ID", nullable = false)
+    private Address address;
+
+    @Column(name = "ORDER_ADDRESS_SNAPSHOT", nullable = false, length = 255)
+    private String orderAddressSnapshot;
+
+    @Column(name = "ORDER_TOTAL_PRICE", nullable = false)
+    private Integer orderTotalPrice;
+
+    @Column(name = "ORDER_DELIVERY_FEE", nullable = false)
+    private Integer orderDeliveryFee;
+
+    @Column(name = "ORDER_STATUS", nullable = false, length = 50)
+    private String orderStatus;
+
+    @Column(name = "ORDER_DATE")
+    private LocalDateTime orderDate;
+
+    @OneToOne(mappedBy = "storeOrder", fetch = FetchType.EAGER)
+    private Payment payment;
+
+    // @OneToOne(mappedBy = "storeOrder", fetch = FetchType.LAZY)
+    // private Review review;
+
+    @OneToOne(mappedBy = "orderId", fetch = FetchType.EAGER)
+    private OrderDelivery orderDelivery;
+
+    @OneToMany(mappedBy = "order", cascade=CascadeType.ALL)
+	@Builder.Default
+    private List<OrderItem> orderItem = new ArrayList<>();
 
     /**
-     * store와 owner 연결 (nullable)
-     * alter table store add column store_owner_id bigint null;
+     * 주문 최초 저장(INSERT) 직전에 orderDate를 자동 세팅합니다.
+     * 이미 orderDate가 지정된 경우(외부 입력/특수 케이스)에는 덮어쓰이지 않습니다.
      */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_owner_id") // NULL 허용
-    private StoreOwner storeOwner;
-
-    @Column(name = "STORE_OWNER_NAME", nullable = false, length = 100)
-    private String storeOwnerName;
-
-    @Column(name = "STORE_NAME", nullable = false, length = 100)
-    private String storeName;
-
-    @Column(name = "STORE_ADDRESS", nullable = false, length = 400)
-    private String storeAddress;
-
-    @Column(name = "STORE_CATEGORY", nullable = false, length = 50)
-    private String storeCategory;
-
-    @Column(name = "STORE_PHONE", nullable = false, length = 10)
-    private String storePhone;
-
-    @Column(name = "STORE_MIN_ORDER")
-    private Integer storeMinOrder;
-
-    @Column(name = "STORE_MAX_DIST")
-    private Integer storeMaxDist;
-
-    @Column(name = "STORE_DELIVERY_FEE")
-    private Integer storeDeliveryFee;
-
-    @Column(name = "STORE_OPEN_TIME")
-    private Integer storeOpenTime;
-
-    @Column(name = "STORE_CLOSE_TIME")
-    private Integer storeCloseTime;
-
-    @Column(name = "STORE_RATING")
-    private Double storeRating;
-
-    @Column(name = "STORE_TOTAL_ORDER")
-    private Integer storeTotalOrder;
-
-    @Column(name = "STORE_RECENT_ORDER")
-    private Integer storeRecentOrder;
-
-    // 영업 상태
-    // OPEN / CLOSE
-    @Enumerated(EnumType.STRING)
-    @Column(name = "STORE_OPEN_STATUS", length = 10)
-    private StoreOpenStatus storeOpenStatus;
-
-    @Column(name = "STORE_INTRO", length = 4000)
-    private String storeIntro;
-
-    // 비즈니스 메서드
-
-    // 가게 기본 정보 변경
-    public void changeInfo(String name, String phone) {
-        this.storeName = name;
-        this.storePhone = phone;
+    @PrePersist
+    private void prePersist() {
+        if (orderDate == null) orderDate = LocalDateTime.now();
     }
 
-    // 가게 영업 상태 변경
-    public void changeStatus(StoreOpenStatus status) {
-        this.storeOpenStatus = status;
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
     }
-
-    // DTO 기준 가게 정보 수정
-    public void update(com.deliveryapp.catchabite.dto.StoreUpdateRequestDto dto) {
-        this.storeName = dto.getStoreName();
-        this.storePhone = dto.getStorePhone();
-        this.storeIntro = dto.getStoreIntro();
-    }
-
-    // 연관관계
-
-    @OneToMany(mappedBy = "store", fetch = FetchType.LAZY)
-    @Builder.Default
-    private List<StoreImage> images = new ArrayList<>();
-
-    @OneToMany(mappedBy = "store", fetch = FetchType.LAZY)
-    @Builder.Default
-    private List<MenuCategory> menuCategories = new ArrayList<>();
-
-    @OneToMany(mappedBy = "store", fetch = FetchType.LAZY)
-    @Builder.Default
-    private List<Menu> menus = new ArrayList<>();
 }

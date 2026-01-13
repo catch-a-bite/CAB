@@ -1,6 +1,5 @@
 package com.deliveryapp.catchabite.entity;
 
-import java.math.BigDecimal;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,7 +7,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -19,12 +17,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(
-        name = "order_option",
-        indexes = {
-                @Index(name = "idx_order_option_order_item_id", columnList = "order_item_id")
-        }
-)
+@Table(name = "order_option")
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -38,16 +31,13 @@ public class OrderOption {
 
     // ERD: ORDER_ITEM_ID (FK)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(
-            name = "order_item_id",
-            nullable = false
-    )
+    @JoinColumn(name = "order_item_id", nullable = false)
     private OrderItem orderItem;
 
     // ERD: ORDER_OPTION_NAME varchar2(100) (NN)
     @Column(name = "order_option_name", length = 100, nullable = false)
     private String orderOptionName;
 
-    @Column(name = "order_option_extra_price", precision = 19, scale = 2)
-    private BigDecimal orderOptionExtraPrice;
+    @Column(name = "order_option_extra_price")
+    private Long orderOptionExtraPrice;
 }
