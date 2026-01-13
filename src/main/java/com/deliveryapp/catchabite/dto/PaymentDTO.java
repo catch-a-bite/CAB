@@ -15,7 +15,7 @@ public class PaymentDTO {
     private Long paymentId;                     //PK
     private Long storeOrderId;                  //FK
     private String paymentMethod;
-    private Integer paymentAmount;
+    private Long paymentAmount;
     private String paymentStatus;
     private LocalDateTime paymentPaidAt;
 

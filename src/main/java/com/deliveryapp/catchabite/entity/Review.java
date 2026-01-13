@@ -6,6 +6,10 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/*
+ * 이 클래스는 일부러 @Setter를 작성하지 않았습니다. 
+ * @Builder만 사용함으로 null이 발생하는 것을 방지하고자 합니다.
+ */
 @Entity
 @Table(name = "REVIEW")
 @Getter

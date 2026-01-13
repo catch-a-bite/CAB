@@ -5,6 +5,7 @@ import lombok.*;
 
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -14,7 +15,7 @@ public class CartItemDTO {
     private Long cartItemId;            //PK
     private Long cartId;                //FK
     private Long menuId;                //FK
-    private Long cartItemQuantity;
+    private Integer cartItemQuantity;
 
     /**
       * 디버깅용: DTO 매핑 후 null인 필드들을 로그로 출력함.

@@ -3,6 +3,10 @@ package com.deliveryapp.catchabite.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+/*
+ * 이 클래스는 일부러 @Setter를 작성하지 않았습니다. 
+ * @Builder만 사용함으로 null이 발생하는 것을 방지하고자 합니다.
+ */
 @Entity
 @Table(name = "CART_ITEM")
 @Getter
@@ -25,5 +29,10 @@ public class CartItem {
 
     @Column(name="CART_ITEM_QUANTITY", nullable = false)
     @Builder.Default
-    private Long cartItemQuantity = 1L;
+    private Integer cartItemQuantity = 1;
+
+    public void changeQuantity(Integer cartItemQuantity) {
+        this.cartItemQuantity = cartItemQuantity;
+    }
+
 }

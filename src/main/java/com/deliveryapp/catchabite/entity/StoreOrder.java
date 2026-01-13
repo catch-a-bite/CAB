@@ -7,7 +7,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/*
+ * 이 클래스는 일부러 @Setter를 작성하지 않았습니다. 
+ * @Builder만 사용함으로 null이 발생하는 것을 방지하고자 합니다.
+ */
 @Entity
 @Table(name = "STORE_ORDER")
 @Getter
@@ -21,11 +24,11 @@ public class StoreOrder {
     @Column(name = "ORDER_ID")
     private Long orderId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "APP_USER_ID", nullable = false)) // ERD shows nullable
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "APP_USER_ID", nullable = false) // ERD shows nullable
     private AppUser appUser;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "STORE_ID", nullable = false)
     private Store store;
 
@@ -48,16 +51,16 @@ public class StoreOrder {
     @Column(name = "ORDER_DATE")
     private LocalDateTime orderDate;
 
-    @OneToOne(mappedBy = "storeOrder", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "storeOrder", fetch = FetchType.EAGER)
     private Payment payment;
 
-    @OneToOne(mappedBy = "storeOrder", fetch = FetchType.LAZY)
-    private Review review;
+    // @OneToOne(mappedBy = "storeOrder", fetch = FetchType.LAZY)
+    // private Review review;
 
-    @OneToOne(mappedBy = "storeOrder", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "orderId", fetch = FetchType.EAGER)
     private OrderDelivery orderDelivery;
 
-    @OneToMany(mappedBy = "storeOrder", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade=CascadeType.ALL)
 	@Builder.Default
     private List<OrderItem> orderItem = new ArrayList<>();
 
@@ -68,5 +71,9 @@ public class StoreOrder {
     @PrePersist
     private void prePersist() {
         if (orderDate == null) orderDate = LocalDateTime.now();
+    }
+
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
     }
 }
