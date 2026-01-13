@@ -1,35 +1,34 @@
 package com.deliveryapp.catchabite.common.exception;
 
-import com.deliveryapp.catchabite.common.response.ApiResponse;
-import org.springframework.validation.BindException;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.deliveryapp.catchabite.common.response.ApiResponse;
+
 /**
- * 전역 예외 처리 컨트롤러
- * 예외를 공통 ApiResponse로 변환
+ * ✅ API(/api/**) 요청에서만 JSON 에러 응답을 만든다.
+ * ✅ 페이지(Thymeleaf) 요청은 예외를 다시 던져서 Spring MVC 기본 에러 처리로 넘긴다.
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // 비즈니스 예외 처리
-    @ExceptionHandler(AppException.class)
-    public ApiResponse<Void> handleAppException(AppException e) {
-        return ApiResponse.fail(e.getErrorCode().getCode(), e.getMessage());
-    }
-
-    // Validation 오류 처리
-    @ExceptionHandler(BindException.class)
-    public ApiResponse<Void> handleBindException(BindException e) {
-        String message = (e.getBindingResult().getFieldError() != null)
-            ? e.getBindingResult().getFieldError().getDefaultMessage()
-            : ErrorCode.INVALID_REQUEST.getMessage();
-        return ApiResponse.fail(ErrorCode.INVALID_REQUEST.getCode(), message);
-    }
-
-    // 기타 예외 처리
     @ExceptionHandler(Exception.class)
-    public ApiResponse<Void> handleException(Exception e) {
-        return ApiResponse.fail("INTERNAL_ERROR", e.getMessage());
+    public ResponseEntity<ApiResponse<Void>> handleException(Exception e, HttpServletRequest request) throws Exception {
+
+        String uri = request.getRequestURI();
+
+        // ✅ /api/** 가 아니면 "처리하지 않는다" → 페이지는 HTML 렌더링/에러페이지로 간다.
+        if (uri == null || !uri.startsWith("/api/")) {
+            throw e;
+        }
+
+        // ✅ /api/** 인 경우에만 JSON으로 통일
+        return ResponseEntity
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body(ApiResponse.fail("INTERNAL_ERROR",
+                (e.getMessage() == null || e.getMessage().isBlank()) ? "Internal error" : e.getMessage()));
     }
 }
