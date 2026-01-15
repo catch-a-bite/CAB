@@ -57,7 +57,9 @@ public class StoreOrder {
     // @OneToOne(mappedBy = "storeOrder", fetch = FetchType.LAZY)
     // private Review review;
 
+
     @OneToOne(mappedBy = "storeOrder", fetch = FetchType.LAZY)
+
     private OrderDelivery orderDelivery;
 
     @OneToMany(mappedBy = "storeOrder", cascade=CascadeType.ALL)

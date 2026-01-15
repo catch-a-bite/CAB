@@ -7,9 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import lombok.extern.log4j.Log4j2;
-
 /**
  * CorsConfig: React(프론트) ↔ Spring Boot(백엔드) 간 CORS 정책을 전역으로 정의
  *
@@ -22,7 +19,7 @@ import lombok.extern.log4j.Log4j2;
  * - allowCredentials(true)인 경우 allowedOrigins에 "*" 사용 불가 → 반드시 명시 Origin을 넣어야 함.
  */
 @Configuration
-@Log4j2
+
 public class CorsConfig {
 
     @Bean
@@ -43,7 +40,6 @@ public class CorsConfig {
          // Debug log
         log.info("✅ CORS Configuration loaded with allowed origins: {}", 
                  config.getAllowedOrigins());
-
 
         // ===== 인증 정보 포함 여부 =====
         // 쿠키(JSESSIONID) 기반 인증/세션을 쓸 경우 true가 필요할 수 있음.
