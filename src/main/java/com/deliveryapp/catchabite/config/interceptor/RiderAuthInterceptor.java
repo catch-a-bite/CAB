@@ -1,5 +1,6 @@
 package com.deliveryapp.catchabite.config.interceptor;
 
+import com.deliveryapp.catchabite.auth.AuthSessionKeys;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -13,7 +14,7 @@ public class RiderAuthInterceptor implements HandlerInterceptor {
         throws Exception {
 
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("LOGIN_RIDER_ID") == null) {
+        if (session == null || session.getAttribute(AuthSessionKeys.LOGIN_RIDER_ID) == null) {
             response.sendRedirect("/auth/rider/signup?error");
             return false;
         }
