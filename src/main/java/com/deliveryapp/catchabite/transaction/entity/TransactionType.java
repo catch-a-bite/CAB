@@ -8,7 +8,7 @@ package com.deliveryapp.catchabite.transaction.entity;
  * Dependencies: 없음
  */
 public enum TransactionType {
-    USERPAYMENT,
-    STOREPAYOUT,
-    DELIVERYPAYOUT
+    USER_PAYMENT,
+    STORE_PAYOUT,
+    DELIVERY_PAYOUT
 }

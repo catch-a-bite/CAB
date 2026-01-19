@@ -77,7 +77,7 @@ public class PaymentCompleteResponseDTO {
      * 예: 1234567890
      */
     @JsonProperty("payment_id")
-    private String paymentId;
+    private Long paymentId;
     
     /**
      * StoreOrder.orderId (주문 ID)
