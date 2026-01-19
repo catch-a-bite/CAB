@@ -29,5 +29,17 @@ public record StoreOwnerSignUpRequest(
 
     @NotBlank
     @Size(min = 10, max = 11, message = "휴대폰 번호는 숫자만 10~11자리로 입력하세요.")
-    String mobile
+    String mobile,
+
+    @NotBlank
+    @Size(min = 5, max = 50)
+    String businessRegistrationNumber,
+
+    @NotBlank
+    @Size(min = 2, max = 100)
+    String storeName,
+
+    @NotBlank
+    @Size(min = 5, max = 400)
+    String storeAddress
 ) {}
