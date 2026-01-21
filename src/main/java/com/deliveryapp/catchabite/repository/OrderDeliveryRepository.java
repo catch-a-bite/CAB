@@ -1,5 +1,6 @@
 package com.deliveryapp.catchabite.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -115,5 +116,16 @@ public interface OrderDeliveryRepository extends JpaRepository<OrderDelivery, Lo
         @Param("delivererId") Long delivererId, 
         @Param("orderDeliveryStatus") DeliveryStatus orderDeliveryStatus
         );
+    /*******************************************************************************************************************/
+
+    /* 01/21 - 배달원 정산 시 기간 조회에 필드명 반영 ***********************************************************************/
+    List<OrderDelivery> findByDeliverer_DelivererIdAndOrderDeliveryStatusAndOrderDeliveryCompleteTimeBetween(
+        Long delivererId,
+        DeliveryStatus orderDeliveryStatus,
+        LocalDateTime from,
+        LocalDateTime to
+    );
+
+    List<OrderDelivery> findByDeliveryIdInAndDeliverer_DelivererId(List<Long> deliveryIds, Long delivererId);
     /*******************************************************************************************************************/
 }

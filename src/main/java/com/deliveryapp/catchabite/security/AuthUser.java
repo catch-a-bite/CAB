@@ -16,6 +16,7 @@ public class AuthUser implements UserDetails {
     private Long userId;        // 고객 PK
     private Long delivererId;   // 배달원 PK (없으면 null)
     private Long storeOwnerId;  // 점주 PK (없으면 null)
+    private Long deliveryId;    // order_delivery(주문 배달) PK - 배달 정보를 조회하기 위해 이용
 
     private String email;
     private String password;

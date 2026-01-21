@@ -19,7 +19,7 @@ import com.deliveryapp.catchabite.service.OrderDeliveryService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/deliverer/deliveries")
+@RequestMapping("/api/v1/rider/deliveries")
 @RequiredArgsConstructor
 public class DelivererDeliveryController {
 

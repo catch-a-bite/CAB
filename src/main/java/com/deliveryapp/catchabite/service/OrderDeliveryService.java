@@ -248,7 +248,7 @@ public class OrderDeliveryService {
     @Transactional(readOnly = true)
     public OrderDeliveryDTO getDeliveryForUser(Long deliveryId, Long userId) {
         OrderDelivery od = orderDeliveryRepository.findDeliveryForUser(deliveryId, userId)
-                            .orElseThrow(() -> new IllegalArgumentException("조회 권한이 없거나 배달이 없습니다."));
+                            .orElseThrow(() -> new IllegalArgumentException("404 error not your delivery_user."));
         return OrderDeliveryDTO.from(od);
     }
     
@@ -256,7 +256,7 @@ public class OrderDeliveryService {
     @Transactional(readOnly = true)
     public List<OrderDeliveryDTO> getDeliveriesByUser(Long userId) {
         List<OrderDelivery> list = orderDeliveryRepository.findDeliveriesForUser(userId);
-        if (userId == null) throw new AccessDeniedException("조회 권한이 없거나 배달이 없습니다.");
+        if (userId == null) throw new AccessDeniedException("404 error not your delivery_user.");
         return list.stream()
                 .map(OrderDeliveryDTO::from)
                 .toList();
@@ -266,7 +266,7 @@ public class OrderDeliveryService {
     @Transactional(readOnly = true)
     public OrderDeliveryDTO getDeliveryForStore(Long deliveryId, Long storeOwnerId) {
         OrderDelivery od = orderDeliveryRepository.findForStore(deliveryId, storeOwnerId)
-                        .orElseThrow(() -> new IllegalArgumentException("해당 배달을 조회할 권한이 없습니다."));
+                        .orElseThrow(() -> new IllegalArgumentException("404 not your delivery_owner."));
         return OrderDeliveryDTO.from(od);
     }
 
@@ -274,7 +274,7 @@ public class OrderDeliveryService {
     @Transactional(readOnly = true)
     public List<OrderDeliveryDTO> getDeliveriesByStore(Long storeOwnerId) {
         List<OrderDelivery> list = orderDeliveryRepository.findDeliveriesByStore(storeOwnerId);
-        if (storeOwnerId == null) throw new AccessDeniedException("해당 배달을 조회할 권한이 없습니다.");
+        if (storeOwnerId == null) throw new AccessDeniedException("404 not your delivery_owner.");
         return list.stream()
                 .map(OrderDeliveryDTO::from)
                 .toList();
@@ -284,7 +284,7 @@ public class OrderDeliveryService {
     @Transactional(readOnly = true)
     public List<OrderDeliveryDTO> getDeliveriesByStoreAndStatus(Long storeOwnerId, DeliveryStatus orderDeliveryStatus) {
         List<OrderDelivery> list = orderDeliveryRepository.findDeliveriesInStatus(storeOwnerId, orderDeliveryStatus);
-        if (storeOwnerId == null) throw new AccessDeniedException("해당 배달 상태를 조회할 권한이 없습니다.");
+        if (storeOwnerId == null) throw new AccessDeniedException("404 cannot check status_owner.");
         return list.stream()
                 .map(OrderDeliveryDTO::from)
                 .toList();
@@ -294,7 +294,7 @@ public class OrderDeliveryService {
     @Transactional(readOnly = true)
     public OrderDeliveryDTO getDeliveryForDeliverer(Long deliveryId, Long delivererId) {
         OrderDelivery od = orderDeliveryRepository.findDeliveryForDeliverer(deliveryId, delivererId)
-                        .orElseThrow(() -> new IllegalArgumentException("해당 배달을 조회할 권한이 없습니다."));
+                        .orElseThrow(() -> new IllegalArgumentException("404 error not your delivery_rider."));
         return OrderDeliveryDTO.from(od);
     }
 
@@ -303,7 +303,7 @@ public class OrderDeliveryService {
     public List<OrderDeliveryDTO> getDeliveriesByDeliverer(Long delivererId) {
         List<OrderDelivery> list = orderDeliveryRepository
                             .findByDeliverer_DelivererId(delivererId);
-        if (delivererId == null) throw new AccessDeniedException("해당 배달을 조회할 권한이 없습니다.");
+        if (delivererId == null) throw new AccessDeniedException("404 error not your delivery_rider.");
         return list.stream()
                 .map(OrderDeliveryDTO::from)
                 .toList();
@@ -313,7 +313,7 @@ public class OrderDeliveryService {
     @Transactional(readOnly = true)
     public List<OrderDeliveryDTO> getDeliveriesByDelivererInStatus(Long delivererId, DeliveryStatus orderDeliveryStatus) {
         List<OrderDelivery> list = orderDeliveryRepository.findDeliveriesByDelivererInStatus(delivererId, orderDeliveryStatus);
-        if (delivererId == null) throw new AccessDeniedException("해당 배달 상태를 조회할 권한이 없습니다.");
+        if (delivererId == null) throw new AccessDeniedException("404 cannot check status_rider.");
         return list.stream()
                 .map(OrderDeliveryDTO::from)
                 .toList();
