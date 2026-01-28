@@ -14,6 +14,7 @@ import com.deliveryapp.catchabite.common.response.ApiResponse;
 import com.deliveryapp.catchabite.dto.AddressDTO;
 import com.deliveryapp.catchabite.service.AddressService;
 import lombok.RequiredArgsConstructor;
+import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -62,5 +63,15 @@ public class AddressController {
     public ResponseEntity<ApiResponse<Void>> deleteAddress(@PathVariable Long addressId) {
         addressService.deleteAddress(addressId);
         return ResponseEntity.ok(ApiResponse.okMessage("Address deleted successfully"));
+    }
+
+    /**
+     * 사용자의 모든 배송지 목록을 조회합니다.
+     * GET /api/v1/appuser/addresses/list?userId={id}
+     */
+    @GetMapping("/list")
+    public ResponseEntity<ApiResponse<List<AddressDTO>>> getMyAddresses(@RequestParam Long userId) {
+        List<AddressDTO> list = addressService.getMyAddresses(userId);
+        return ResponseEntity.ok(ApiResponse.ok(list));
     }
 }

@@ -2,6 +2,7 @@ package com.deliveryapp.catchabite.controller;
 
 import com.deliveryapp.catchabite.common.response.ApiResponse;
 import com.deliveryapp.catchabite.dto.StoreOrderDTO;
+import com.deliveryapp.catchabite.dto.UserStoreOrderRequestDTO;
 import com.deliveryapp.catchabite.dto.UserStoreSummaryDTO;
 import com.deliveryapp.catchabite.service.UserStoreOrderService;
 
@@ -26,7 +27,7 @@ public class StoreOrderController {
      * [POST] /api/v1/appuser/store-orders
      */
     @PostMapping
-    public ResponseEntity<ApiResponse<StoreOrderDTO>> createStoreOrder(@Valid @RequestBody StoreOrderDTO request) {
+    public ResponseEntity<ApiResponse<StoreOrderDTO>> createStoreOrder(@Valid @RequestBody UserStoreOrderRequestDTO request) {
         StoreOrderDTO created = storeOrderService.createStoreOrder(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.ok(created));
     }

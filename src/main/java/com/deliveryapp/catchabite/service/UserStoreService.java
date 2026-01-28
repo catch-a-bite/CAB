@@ -3,7 +3,6 @@ package com.deliveryapp.catchabite.service;
 import java.util.List;
 
 import com.deliveryapp.catchabite.dto.UserStoreSummaryDTO;
-import com.deliveryapp.catchabite.dto.StoreSummaryDTO;
 import com.deliveryapp.catchabite.dto.UserStoreResponseDTO;
 
 public interface UserStoreService {

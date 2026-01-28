@@ -1,5 +1,8 @@
 package com.deliveryapp.catchabite.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -129,6 +132,19 @@ public class AddressServiceImpl implements AddressService {
         
         
         addressRepository.deleteById(addressId);
+    }
+
+    //사용자 주소 받음
+    @Override
+    @Transactional(readOnly = true)
+    public List<AddressDTO> getMyAddresses(Long appUserId) {
+        if (appUserId == null) {
+            throw new IllegalArgumentException("User ID cannot be null");
+        }        
+        List<Address> addresses = addressRepository.findAllByAppUser_AppUserId(appUserId);        
+        return addresses.stream()
+                .map(addressConverter::toDto)
+                .collect(Collectors.toList());
     }
 
     //==========================================================
