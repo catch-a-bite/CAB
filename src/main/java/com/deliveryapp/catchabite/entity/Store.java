@@ -39,7 +39,7 @@ public class Store {
     private StoreCategory storeCategory;
 
 
-    @Column(name = "store_phone", nullable = false, length = 10)
+    @Column(name = "store_phone", nullable = false, length = 11)
     private String storePhone;
 
     @Column(name = "store_min_order")
